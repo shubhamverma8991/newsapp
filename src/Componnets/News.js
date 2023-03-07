@@ -17,7 +17,7 @@ export default class News extends Component {
 
   async componentDidMount() {
     console.log("Inside componentDidMount");
-    let completeNewsUrl = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=31c6edef4fcc413aaa1bbbb609971bca&page=1&pagesize=${this.state.pagesize}`;
+    let completeNewsUrl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=31c6edef4fcc413aaa1bbbb609971bca&page=1&pagesize=${this.state.pagesize}`;
     let data = await fetch(completeNewsUrl);
     let parseData = await data.json();
     this.setState({ totalResult: parseData.totalResults });
@@ -25,7 +25,7 @@ export default class News extends Component {
   }
 
   handlePrevious = async () => {
-    let completeNewsUrl = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=31c6edef4fcc413aaa1bbbb609971bca&page=${
+    let completeNewsUrl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=31c6edef4fcc413aaa1bbbb609971bca&page=${
       this.state.page - 1
     }&pagesize=${this.state.pagesize}`;
     let data = await fetch(completeNewsUrl);
@@ -34,7 +34,7 @@ export default class News extends Component {
   };
   handleNext = async () => {
     if (this.state.page + 1 < Math.ceil(this.state.totalResult / this.state.pagesize)) {
-      let completeNewsUrl = `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=31c6edef4fcc413aaa1bbbb609971bca&page=${
+      let completeNewsUrl = `https://newsapi.org/v2/top-headlines?country=in&apiKey=31c6edef4fcc413aaa1bbbb609971bca&page=${
         this.state.page + 1
       }&pagesize=${this.state.pagesize}`;
       let data = await fetch(completeNewsUrl);
@@ -53,7 +53,7 @@ export default class News extends Component {
     // console.log("DOM");
     return (
       <div className="container my-3">
-        <h1>Samachar </h1>
+        <h1 className="text-center btn-dark">Mor Samachar </h1>
         <div className="row">
           {/* Map Loop to Display N Number of News */}
           {this.state.articles.map((element) => {
@@ -73,7 +73,12 @@ export default class News extends Component {
           <button disabled={this.state.page <= 1} type="button" className="btn btn-dark mx-3" onClick={this.handlePrevious}>
             Prev
           </button>
-          <button type="button" className="btn btn-dark mx-3" onClick={this.handleNext}>
+          <button
+            disabled={this.state.page + 1 > Math.ceil(this.state.totalResult / this.state.pagesize)}
+            type="button"
+            className="btn btn-dark mx-3"
+            onClick={this.handleNext}
+          >
             Next
           </button>
         </div>
