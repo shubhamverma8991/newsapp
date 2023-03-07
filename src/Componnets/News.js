@@ -107,7 +107,17 @@ export default class News extends Component {
       loading: false,
     };
   }
+
+  async componentDidMount() {
+    console.log("Inside componentDidMount");
+    let completeNewsUrl = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=31c6edef4fcc413aaa1bbbb609971bca";
+    let data = await fetch(completeNewsUrl);
+    let parseData = await data.json();
+    this.setState({ articles: parseData.articles });
+  }
+
   render() {
+    // console.log("DOM");
     return (
       <div className="container my-3">
         <h2>Samachar </h2>
@@ -117,8 +127,8 @@ export default class News extends Component {
             return (
               <div className="col-md-4" key={element.url}>
                 <NewsItem
-                  title={element.title.slice(1, 40)}
-                  description={element.description.slice(0, 88)}
+                  title={element.title == null ? "" : element.title.slice(0, 45)}
+                  description={element.description == null ? "" : element.description.slice(0, 88)}
                   imgURL={element.urlToImage}
                   newsURL={element.url}
                 />
